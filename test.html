@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      width: 200px;
+      height: 50px;
+      border: 1px solid red;
+    }
+    .box .square {
+      display: block;
+      width: 200px;
+      height: 30px;
+      background-color:#000;
+    }
+    .box .triangle {
+      display: block;
+      width: 0;
+      height: 0;
+      border-left:20px solid transparent;
+      border-right:20px solid transparent;
+      border-top:10px solid red;
+    }
+    #drag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      /*margin: auto;*/
+      width: 400px;
+      height: 400px;
+      border: 1px solid red;
+      display: none;
+    }
+    #header {
+      width: 100%;
+      height: 30px;
+      cursor: pointer;
+      border: 1px solid #000;
+    }
+    #calendar input {
+      margin-top: 100px;
+      margin-left: 100px;
+      width: 300px;
+      height: 30px;
+      line-height: 30px;
+    }
+    /*日历样式开始*/
+    .clearfix:after {
+      content: '';
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+    .clearfix {
+      zoom: 1;
+    }
+    .calendar {
+      width: 230px;
+      height: 264px;
+      font-size:0;
+      border: 1px solid #bde0ec;
+    }
+    .calendar .calendarHead {
+      width: 100%;
+      height: 34px;
+      background-color: #41a9cc;
+    }
+    .calendar .calendarHead .time {
+      height: 100%;
+      line-height: 34px;
+      float: left;
+    }
+    .calendar .calendarHead .time .prevBtn {
+      margin-left: 13px;
+    }
+    .calendar .calendarHead .time .nextBtn,.calendar .calendarHead .time .prevBtn {
+      cursor: pointer;
+      font-size:17px;
+      color: #fff;
+    }
+    .calendar .calendarHead .time .yearMonth {
+      margin: 0 25px;
+      display: inline-block;
+    }
+    .calendar .calendarHead .time .year,.calendar .calendarHead .time .month {
+      font-size: 14px;
+      color: #fff;
+    }
+    .calendar .calendarHead .clear {
+      height: 100%;
+      line-height: 34px;
+      float: right;
+
+    }
+    .calendar .calendarHead .clear span {
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right:16px;
+    }
+    .calendar .calendarBody {
+      width: 100%;
+      height: 234px;
+    }
+    .calendar .calendarBody table{
+      height: 231px;
+      width: 230px;
+      border-spacing: 0;
+    }
+    .calendar .calendarBody table thead tr{
+      width: 100%;
+      height: 32px;
+      border: 0;
+    }
+    .calendar .calendarBody table thead tr td,.calendar .calendarBody table tbody tr td {
+      color: #333;
+      font-size: 14px;
+      text-align: center;
+      /*cursor: pointer;*/
+    }
+    .calendar .calendarBody table tr td.day {
+      cursor: pointer;
+    }
+    .calendar .calendarBody table tr td.current {
+      background-color: #41a9cc;
+      color: #fff;
+    }
+    .calendar .calendarBody table tr td.day:hover {
+      background-color: #e5e5e5;
+    }
+    .calendar .calendarBody table tbody tr {
+      width: 100%;
+      height: 34px;
+    }
+    .calendar .calendarBody table tbody .active {
+      background-color: #41a9cc;
+    }
+    /*日历样式结束*/
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <span class="square"></span>
+    <span class="triangle"></span>
+  </div>
+
+  <div id="drag">
+    <p id="header">
+      这里是标题
+    </p>
+  </div>
+  <div id="calendar">
+    <input type="text" name="calendar" />
+    <div class="calendar">
+        <div class="calendarHead clearfix">
+          <div class="time">
+            <span class="prevBtn">&lt;</span>
+            <span class="yearMonth">
+              <span class="year"></span>
+              <span class="month"></span>
+            </span>
+            <span class="nextBtn">&gt;</span>
+          </div>
+          <div class="clear">
+            <span>清除</span>
+          </div>
+        </div>
+        <div class="calendarBody">
+            <table>
+              <thead>
+                <tr>
+                  <td>日</td>
+                  <td>一</td>
+                  <td>二</td>
+                  <td>三</td>
+                  <td>四</td>
+                  <td>五</td>
+                  <td>六</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+<!-- <script src="http://js.static.m1905.cn/core/jquery-edge.min.js"></script> -->
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+  var $drag = $('#drag'),
+      $dragWidth = $drag.width(),
+      $dragHeight = $drag.height(),
+      $header = $('#header'),
+      moveFlag = false,
+      boxStartX = '',
+      boxStartY = '',
+      boxMoveX = '',
+      boxMoveY = '',
+      mouseStartX = '',
+      mouseStartY = '',
+      mouseMoveX = '',
+      mouseMoveY = '',
+      winWidth = '',
+      winHeight = '';
+  $header.on('mousedown',function(e){
+    console.log('按下');
+    e.stopPropagation();
+    moveFlag = true;
+    winWidth = document.documentElement.clientWidth,
+    winHeight = document.documentElement.clientHeight;
+    boxStartX = $drag.offset().left;
+    boxStartY = $drag.offset().top;
+    mouseStartX = e.pageX;
+    mouseStartY = e.pageY;
+  });
+  $(document).on('mousemove',function(e){
+    e.stopPropagation();
+    if(moveFlag){
+      console.log('移动');
+      mouseMoveX = e.pageX;
+      mouseMoveY = e.pageY;
+      boxMoveX = mouseMoveX - mouseStartX + boxStartX;
+      boxMoveY = mouseMoveY - mouseStartY + boxStartY;
+      console.log(boxMoveX);
+      if(boxMoveX <= 0){
+        boxMoveX = 0;
+      }
+      if(boxMoveX >= winWidth - $dragWidth){
+        boxMoveX = winWidth - $dragWidth;
+      }
+      if(boxMoveY <= 0){
+        boxMoveY = 0;
+      }
+      if(boxMoveY >= winHeight - $dragHeight){
+        boxMoveY = winHeight - $dragHeight;
+      }
+      $drag.css({
+        'left' : boxMoveX,
+        'top' : boxMoveY
+      });
+      $header.css('cursor','move');
+    }
+  }).on('mouseup',function(e){
+    console.log('抬起');
+    e.stopPropagation();
+    $header.css('cursor','pointer');
+    moveFlag = false;
+  });
+
+  $.fn.calendar = function(){
+
+    //初始化日期
+    var monthArray = ['零一月','零二月','零三月','零四月','零五月','零六月','零七月','零八月','零九月','零十月','十一月','十二月'],
+        weekArray = ['日','一','二','三','四','五','六'];
+    var newDate = new Date();
+    var year = newDate.getFullYear();
+    var month = monthIndex = newDate.getMonth();
+    var firstDay = 1;
+    var $td = $('table tbody tr td');
+    var leapYear = ['31','29','31','30','31','30','31','31','30','31','30','31'],
+        noLeapYear = ['31','28','31','30','31','30','31','31','30','31','30','31'];
+
+    //初始部分开始
+    // 初始化年
+    $('.year').text(year);
+    //初始化月份
+    $('.month').text(monthArray[monthIndex]);
+    //获取今天
+    var todayDate = new Date().getDate();
+    //初始化天数
+    newDate.setMonth((month + 2) % 12);
+    newDate.setDate(0);    //返回上一个月
+    var monthAllDays = newDate.getDate();      //本月有多少天
+    var firstDayIndex = new Date(year + '/' + (month + 1) + '/' + '1').getDay();
+    $.each($td,function(i,val){
+      if(i >= firstDayIndex && i <= monthAllDays){
+        todayDate == firstDay ? $(this).addClass('day current').text(firstDay):$(this).addClass('day').text(firstDay);
+        firstDay ++;
+      }else if( i > monthAllDays) {
+        return false;
+      }
+    });
+    //初始部分结束
+    $(document).on('click','.nextBtn',function(e){
+      e.stopPropagation();
+      //准备封装的部分开始
+      //状态清零
+      firstDay = 1;
+      // 年月重绘
+      monthIndex ++;
+      monthIndex = (monthIndex)%12;
+      if(monthIndex == 0){
+        year ++;
+      }
+      $('.year').text(year);
+      $('.month').text(monthArray[monthIndex]);
+      //天重绘
+      firstDayIndex = new Date(year + '/' + (monthIndex + 1) + '/' + '1').getDay();
+      $td.removeClass('day current').text('');
+      //闰年能被4整除，并且不能被100整除或不能被400整除
+      if(year%4 == 0 && (year%100 != 0 || year%400 == 0)){
+        //闰年
+        monthAllDays = leapYear[monthIndex];
+      }else {
+        //平年
+        monthAllDays = noLeapYear[monthIndex];
+      }
+      for(var i = 0; i < monthAllDays; i ++){
+        $td.eq(firstDayIndex + i).addClass('day').text(firstDay);
+        firstDay ++;
+      }
+      //准备封装的部分结束
+    });
+  }
+  $('input[name="calendar"]').calendar();
+  //跳转到主页
+  AddFavorite('www.baidu.com','百度');
+  function AddFavorite(sURL, sTitle)
+  {
+      try
+      {
+          window.external.addFavorite(sURL, sTitle);
+      }
+      catch (e)
+      {
+          try
+          {
+              window.sidebar.addPanel(sTitle, sURL, "");
+          }
+          catch (e)
+          {
+              alert("加入收藏失败，请使用Ctrl+D进行添加");
+          }
+      }
+  }
+//   function Test(name){
+//     this.name = name;
+//   }
+//   Test.prototype.testInit = function(){
+//     alert(this.name);
+//   }
+// var test = new Test('111');
+// test.testInit();
+// console.log(test);
+ // var test = function(){
+ //  //  console.log('test');
+ // }
+ // test.prototype.testInit  = function(){
+ //   console.log('testInit');
+ // }
+ // var test =new test();
+ // test.testInit();
+ // console.log(test);
+
+</script>
+</body>
+</html>
